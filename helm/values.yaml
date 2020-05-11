@@ -61,6 +61,7 @@ origin:
 proxy:
   config: /etc/config/proxy.yaml
   replicas: 1
+  server_port: 0
   annotations:
   extraVolumes:
   extraVolumeMounts:

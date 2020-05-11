@@ -32,6 +32,7 @@ spec:
         - /usr/bin/kraken-proxy
         - --config={{ .Values.proxy.config }}
         - --port=80
+        - --server-port={{ .Values.proxy.server_port }}
         volumeMounts:
         - name: config
           mountPath: /etc/config
@@ -52,6 +53,13 @@ spec:
     app.kubernetes.io/component: proxy
     app.kubernetes.io/instance: {{ .Release.Name }}
   ports:
-  - protocol: TCP
+  - name: proxy
+    protocol: TCP
     port: 80
     targetPort: 80
+  {{ if ne .Values.proxy.server_port 0.0 }}
+  - name: server
+    protocol: TCP
+    port: {{ .Values.proxy.server_port }}
+    targetPort: {{ .Values.proxy.server_port }}
+  {{ end }}
